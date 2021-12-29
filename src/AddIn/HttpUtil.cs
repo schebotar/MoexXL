@@ -19,7 +19,24 @@ namespace MoexXL
             return await _httpClient.GetStringAsync(uri);
         }
 
-        public async static Task<string> GetStocks() =>
-            await GetJsonByUri((new Uri(@"https://iss.moex.com/iss/engines/stock/markets/shares/securities.json?iss.meta=off&iss.json=extended")));
+        public async static Task<string> GetStockJson(string ticker)
+        {
+            Uri uri = ticker.ToUri(SecurityType.Shares);
+            return await GetJsonByUri(uri);
+        }
+
+        public async static Task<string> GetBondJson(string ticker)
+        {
+            Uri uri = ticker.ToUri(SecurityType.Bonds);
+            return await GetJsonByUri(uri);
+        }
+
+        private static Uri ToUri(this string ticker, SecurityType type)
+        {
+            UriBuilder ub = new UriBuilder("https", "iss.moex.com");
+            ub.Path = $"iss/engines/stock/markets/{type}/securities/{ticker}.json";
+
+            return ub.Uri;
+        }
     }
 }
