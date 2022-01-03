@@ -35,6 +35,7 @@ namespace MoexXL
         {
             UriBuilder ub = new UriBuilder("https", "iss.moex.com");
             ub.Path = $"iss/engines/stock/markets/{type}/securities/{ticker}.json";
+            //ub.Query = "iss.json=extended&iss.meta=off";
 
             return ub.Uri;
         }
