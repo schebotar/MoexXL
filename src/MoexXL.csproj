@@ -76,7 +76,8 @@
     <Compile Include="AddIn\Functions.cs" />
     <Compile Include="AddIn\HttpUtil.cs" />
     <Compile Include="AddIn\MemoryCacheUtil.cs" />
-    <Compile Include="MoexApi\MoexIssResponse.cs" />
+    <Compile Include="MoexApi\Attribute.cs" />
+    <Compile Include="MoexApi\MoexResponse.cs" />
     <Compile Include="AddIn\Observable.cs" />
     <Compile Include="MoexApi\MoexUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

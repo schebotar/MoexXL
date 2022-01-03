@@ -16,7 +16,7 @@ namespace MoexXL
 
         public Observable(string ticker, string attribute)
         {
-            _timer = new Timer(timer_tick, null, TimeSpan.Zero, new TimeSpan(0, 5, 0));
+            _timer = new Timer(timer_tick, null, TimeSpan.Zero, new TimeSpan(1, 0, 5));
             _observers = new List<IExcelObserver>();
             _ticker = ticker;
             _attribute = attribute;
@@ -36,7 +36,7 @@ namespace MoexXL
 
         async void timer_tick(object _)
         {
-            object result = await MoexUtil.GetTickerAttribute(_ticker, _attribute);
+            object result = await MoexUtil.GetStockInfo(_ticker, _attribute);
 
             foreach (var obs in _observers)
             {
