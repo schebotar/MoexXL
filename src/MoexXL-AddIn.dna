@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DnaLibrary Name="MoexXL Add-In" RuntimeVersion="v4.0" xmlns="http://schemas.excel-dna.net/addin/2020/07/dnalibrary">
+  <ExternalLibrary Path="MoexXL.dll" ExplicitRegistration="true" LoadFromBytes="true" Pack="true" IncludePdb="false" />
+  <ExternalLibrary Path="ExcelDna.Registration.dll" ExplicitRegistration="true" LoadFromBytes="true" Pack="true" IncludePdb="false" />
+  <ExternalLibrary Path="Newtonsoft.Json.dll" ExplicitRegistration="true" LoadFromBytes="true" Pack="true" IncludePdb="false" />
+</DnaLibrary>

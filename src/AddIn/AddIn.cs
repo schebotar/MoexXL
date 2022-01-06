@@ -1,22 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ExcelDna.Integration;
+﻿using ExcelDna.Integration;
+using ExcelDna.Registration;
+using System.Net.Http;
+using System.Runtime.Caching;
 
 namespace MoexXL
 {
     public class AddIn : IExcelAddIn
     {
+        public static HttpClient httpClient;
+        public static MemoryCache memoryCache;
+
         public void AutoClose()
         {
-            throw new NotImplementedException();
+            memoryCache.Dispose();
         }
 
         public void AutoOpen()
         {
-            throw new NotImplementedException();
+            httpClient = new HttpClient();
+            memoryCache = new MemoryCache("MOEX");
+            RegisterFunctions();
+        }
+
+        void RegisterFunctions()
+        {
+            ExcelRegistration.GetExcelFunctions()
+                             .ProcessAsyncRegistrations(nativeAsyncIfAvailable: false)
+                             .RegisterFunctions();
         }
     }
 }
