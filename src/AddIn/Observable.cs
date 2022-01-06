@@ -2,43 +2,44 @@
 using MoexXL.MoexApi;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 
 namespace MoexXL
 {
     class Observable : IExcelObservable
     {
-        Timer _timer;
-        List<IExcelObserver> _observers;
-        string _ticker;
-        string _attribute;
+        Timer timer;
+        List<IExcelObserver> observers;
+        string ticker;
+        string attribute;
+        SecurityType securityType;
 
-        public Observable(string ticker, string attribute)
+        public Observable(string ticker, string attribute, SecurityType securityType)
         {
-            _timer = new Timer(timer_tick, null, TimeSpan.Zero, new TimeSpan(1, 0, 5));
-            _observers = new List<IExcelObserver>();
-            _ticker = ticker;
-            _attribute = attribute;
+            timer = new Timer(TimerTick, null, TimeSpan.Zero, new TimeSpan(0, 1, 0));
+            observers = new List<IExcelObserver>();
+            this.ticker = ticker;
+            this.attribute = attribute;
+            this.securityType = securityType;
         }
 
         public IDisposable Subscribe(IExcelObserver observer)
         {
-            _observers.Add(observer);
-            observer.OnNext("Загрузка...");
+            observers.Add(observer);
+            observer.OnNext(ExcelError.ExcelErrorGettingData);
 
             return new ActionDisposable(() =>
             {
-                _observers.Remove(observer);
-                _timer.Dispose();
+                observers.Remove(observer);
+                timer.Dispose();
             });
         }
 
-        async void timer_tick(object _)
+        async void TimerTick(object _)
         {
-            object result = await MoexUtil.GetStockInfo(_ticker, _attribute);
+            object result = await IssUtil.GetExcelRangeAsync(ticker, attribute, securityType);
 
-            foreach (var obs in _observers)
+            foreach (var obs in observers)
             {
                 if (result == null)
                     obs.OnNext(ExcelError.ExcelErrorNA);
@@ -57,7 +58,6 @@ namespace MoexXL
             public void Dispose()
             {
                 _disposeAction();
-                Debug.WriteLine("Disposed");
             }
         }
     }
