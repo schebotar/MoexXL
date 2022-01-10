@@ -66,7 +66,7 @@ namespace MoexXL.MoexApi
                         s.Attributes.Values.ToArray()
                     };
 
-                    return columns.ToHeadedExcelRange("Аттрибут", "Наименование", "Значение");
+                    return columns.ToHeadedExcelRange("Атрибут", "Наименование", "Значение");
                 }
 
                 else return s.Attributes[attribute].ToSingleExcelCell();
